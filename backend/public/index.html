@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Testing Spotify API</title>
+</head>
+<body>
+<h1>My TESTING SPOTIFY API</h1>
+<button id="btnLogin">Login to Spotify</button>
+</body>
+<script>
+    const loginButton = document.getElementById('btnLogin');
+    loginButton.addEventListener('click', () => {
+        location.href = "http://localhost:3000/authorize"; // redirect to localhost:3000/authorize
+    });
+</script>
+</html>
