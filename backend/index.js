@@ -1,7 +1,10 @@
-import express from "express"
+import express, {response} from "express"
 import {CLIENT_ID, CLIENT_SECRET, REDIRECT_URI} from "./const.js";
+import {getData} from "./spotify_service/service.js";
 
 const app = express();
+
+global.ACCESS_TOKEN;
 
 app.use(express.static("public"));
 
@@ -17,7 +20,7 @@ app.get("/authorize", (req, res) => {
     const queryParams = new URLSearchParams({
         response_type: "code",
         client_id: CLIENT_ID,
-        scope: "",
+        scope: "user-library-read",
         // this redirect address set in the developers panel at https://developer.spotify.com/dashboard/
         redirect_uri: REDIRECT_URI,
     });
@@ -46,9 +49,40 @@ app.get("/callback", async (req, res) => {
         })
 
         const data = await response.json();
-        console.dir(data);
+        global.ACCESS_TOKEN = data.access_token; // store the access_token in a global variable
+        console.dir(global.ACCESS_TOKEN);
+        res.redirect("/showuser");  // redirect to home page
     }
 )
+// get user profile information from spotify.com API endpoint
+app.get("/showuser",async (req, res) => {
+    const userInformation = await getData("me"); // moved this to a service
+    const userInformationData = await userInformation.json();
+
+    const userTracks = await getData("me/tracks"); // requires scopes see documentation https://developer.spotify.com/documentation/general/guides/authorization/scopes/
+    const userTrackData = await userTracks.json();
+    const tracks = userTrackData.items
+    const userFavouriteArtists = []
+    tracks.forEach((track) => { // the response object is very complex and hard to get the info u need
+        const {artists} = track.track
+        artists.forEach((artist) =>userFavouriteArtists.push(artist.name))
+    })
+
+    const response = {
+        user : userInformationData.display_name,
+        userFavouriteArtists : userFavouriteArtists
+    }
+    res.send(response);
+})
+
+
+
+
+
+
+
+
+
 
 
 const port = process.env.PORT || 3000
