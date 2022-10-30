@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-
+import NavigationBar from "./components/NavBar"
+import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <div className="App">
@@ -19,8 +20,9 @@ function App() {
         </a>
       </header>
       <body>
-
+      <NavigationBar />
       </body>
+
     </div>
   );
 }
