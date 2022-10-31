@@ -6,10 +6,10 @@ app.use(express.json());
 
 app.get("/", async (req, res) => {
     // u can pass an attributes parameter to get only the desired attributes
-    const songs = await Artist.findAll({
-        attributes: ['name','song']
+    const artists = await Artist.findAll({
+        include: ["songs"]
     });
-    res.send(songs);
+    res.send(artists);
 })
 
 app.get("/version", (req, res) => {
@@ -17,9 +17,11 @@ app.get("/version", (req, res) => {
 })
 
 app.post("/addSong", (req, res) => {
-    const {name,song} = req.body
-    const newSong = Artist.create({name, song}); //create contains build and save method
-    console.log(name, song);
+    const {name,title,year} = req.body;
+    const newSong = Artist.create({name, song :[{
+        title,year
+        }]}); //create contains build and save method
+
     res.send("Song added successfully")
 })
 
@@ -27,6 +29,7 @@ const port = process.env.PORT || 3000
 const version = "0.0.1"
 
 // this creates the database if not created already
+// !! use force : true when u want to recreate the database with all the tables {force:true}
 sequelize.sync().then(() => {
     console.log("Database is synced successfully")
 }).catch(err => console)
