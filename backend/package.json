@@ -11,7 +11,10 @@
   "author": "George Orzanescu",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
     "sequelize": "^6.25.3",
     "sqlite3": "^5.1.2"
   },
