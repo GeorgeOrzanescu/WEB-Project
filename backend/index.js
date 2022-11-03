@@ -11,6 +11,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
+// TODO: must implement OPTIONS route for preflight cors requests
 
 app.use(adminRouter);
 

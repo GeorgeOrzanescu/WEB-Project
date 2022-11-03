@@ -8,9 +8,11 @@ import {__SECRET_KEY__} from "../environment/envVariables.js";
 // register a new user
 // TODO: create a middleware or service to check if a user is already registered
 const register = async (req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin" , "*");
+    // res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE");
     try {
         const {userName, password} = req.body;
-
+        console.log(userName, password)
         // generate salt to hash password
         const salt = await bcrypt.genSalt(10);
         // generate the hashed password
@@ -20,7 +22,6 @@ const register = async (req, res, next) => {
             userName: userName,
             password: hashedPassword
         });
-
         // set cookie with the token generated
         if (user) {
             let token = jwt.sign({id: user.id}, __SECRET_KEY__, {
@@ -40,6 +41,7 @@ const register = async (req, res, next) => {
     } catch (error) {
         console.log(error);
     }
+    next();
 };
 
 

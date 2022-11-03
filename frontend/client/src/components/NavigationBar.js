@@ -3,9 +3,15 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from "react-bootstrap/Button";
 import "./NavigationBar.css"
-
+import AuthService from "../services/authService";
 
 function NavigationBar() {
+
+    const registerHandler = async (e) => {
+        e.preventDefault();
+        await AuthService.register("Geo", "test");
+    }
+
     return (
         <Navbar bg="primary" variant="dark">
             <Container>
@@ -16,7 +22,7 @@ function NavigationBar() {
                     <Nav.Link href="#pricing">Add song</Nav.Link>
 
                 </Nav>
-                <Button className="login-btn" variant="outline-light">Login</Button>{' '}
+                <Button className="login-btn" variant="outline-light" onClick={registerHandler}>Login</Button>
             </Container>
         </Navbar>
     );

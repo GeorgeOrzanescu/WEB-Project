@@ -2,7 +2,6 @@ import router from "express"
 import {__VERSION__} from "../../environment/envVariables.js";
 import {register,login} from "../../controller/authController.js";
 
-
 const adminRouter = new router();
 
 adminRouter.post("/register",register);
