@@ -3,6 +3,7 @@ import adminRouter from "./routers/admin-router/adminRouter.js"
 import sequelize from "./database/database.js";
 import {__PORT__} from "./environment/envVariables.js";
 import cookieParser from "cookie-parser";
+import {allowCrossDomain} from "./middleware/cors.js";
 
 const app = express();
 
@@ -10,8 +11,8 @@ const app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
+app.use(allowCrossDomain);
 
-// TODO: must implement OPTIONS route for preflight cors requests
 
 app.use(adminRouter);
 

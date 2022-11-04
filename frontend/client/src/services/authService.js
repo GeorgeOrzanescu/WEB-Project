@@ -4,10 +4,9 @@ const register = async (userName,password) => {
     const result = await fetch(__API_URL__ + "register",{
         method: "POST",
         body: JSON.stringify({
-            username: userName,
+            userName: userName,
             password: password
         }),
-        mode: 'cors',
         headers: {
             "Content-Type": "application/json"
         }
