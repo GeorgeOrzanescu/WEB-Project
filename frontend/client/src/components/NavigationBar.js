@@ -5,23 +5,13 @@ import Button from "react-bootstrap/Button";
 import "./NavigationBar.css"
 import AuthService from "../services/authService";
 import {useState} from "react";
-import MyVerticallyCenteredModal from "../components/LogRegisterModal";
+import LoginAndRegisterModal from "../components/LoginAndRegisterModal";
 
 function NavigationBar() {
     const [isLoggedIn,setLoggedIn] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
-
-    const onChangeUser = (event) => {
-        console.log(event.target.value);
-        setUser(event.target.value);
-    }
-
-    const onChangePassword = (event) => {
-        setPassword(event.target.value);
-        console.log(password);
-    }
 
     const registerHandler = async (e) => {
         e.preventDefault();
@@ -35,12 +25,21 @@ function NavigationBar() {
         setLoggedIn(true);
     }
 
+    const onChangeUser = (event) => {
+        setUser(event.target.value);
+    }
+
+    const onChangePassword = (event) => {
+        setPassword(event.target.value);
+    }
+
     const submitHandler = (e) => {
         e.preventDefault();
-
+        // TODO: send the actual request to the server using register and login handlers as callbacks maybe
         console.log(user + password)
     }
 
+    // TODO: maybe make this a reusable component
     const createLoginButton = (state,handler) => {
         return (<Button className="login-btn" variant="outline-light" onClick={handler}>{state}</Button>);
     }
@@ -60,7 +59,7 @@ function NavigationBar() {
                 </Nav>
                 {!isLoggedIn ? createLoginButton("Login",() => setModalShow(true)) : createLoginButton("Logout",()=>{})}
                 {!isLoggedIn ? createRegisterButton(false,() => setModalShow(true)) : createRegisterButton(true,()=>{})}
-                <MyVerticallyCenteredModal
+                <LoginAndRegisterModal
                     show={modalShow}
                     onHide={() => setModalShow(false)}
                     onSubmit={submitHandler}
