@@ -13,7 +13,6 @@ const register = async (userName,password) => {
     })
     if(result.status === 201) {
       const data = await result.json();
-      console.log(data);
       return data;
     }
 }
@@ -31,7 +30,6 @@ const login = async (userName,password) => {
     })
     if(result.status === 201) {
       const data = await result.json();
-      console.log(data);
       return data;
     }
 }

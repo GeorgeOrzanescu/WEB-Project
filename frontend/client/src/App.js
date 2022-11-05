@@ -19,9 +19,9 @@ function App() {
           WEB PROJECT
         </a>
       </header>
-      <body>
+      <div>
         <NavigationBar/>
-      </body>
+      </div>
     </div>
   );
 }

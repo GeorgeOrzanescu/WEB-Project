@@ -2,3 +2,7 @@
     position: relative;
     float: right;
 }
+
+.register-btn {
+    margin-left: 10px;
+}

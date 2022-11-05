@@ -27,7 +27,7 @@ function LoginAndRegisterModal(props) {
                         <Form.Control type="password" placeholder="Password" onChange={props.onChangePassword}/>
                     </Form.Group>
 
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" onClick={props.onHide}>
                         Submit
                     </Button>
                 </Form>
