@@ -3,13 +3,15 @@ import bcrypt from 'bcrypt';
 import User from "../models/user.js";
 import jwt from "jsonwebtoken"
 import {__SECRET_KEY__} from "../environment/envVariables.js";
+import {_checkUserCredentials, _checkUserExists, _getUserByName} from "../database/databaseService.js";
 
-
-// register a new user
-// TODO: create a middleware or service to check if a user is already registered
 const register = async (req, res, next) => {
     try {
         const {userName, password} = req.body;
+
+        // check if user is already registered
+        await _checkUserExists(userName);
+
         // generate salt to hash password
         const salt = await bcrypt.genSalt(10);
         // generate the hashed password
@@ -20,9 +22,8 @@ const register = async (req, res, next) => {
             password: hashedPassword
         });
         // set cookie with the token generated
-        if (user) {
             let token = jwt.sign({id: user.id}, __SECRET_KEY__, {
-                expiresIn: 1 * 24 * 60 * 60 * 1000,
+                expiresIn: 7 * 24 * 60 * 60 * 1000,
             });
 
             res.cookie("jwt", token, {maxAge: 7 * 24 * 60 * 60, httpOnly: true});
@@ -31,52 +32,35 @@ const register = async (req, res, next) => {
             //send users details
             // TODO : create a model to send (only some info)
             return res.status(201).send(user);
-        } else {
-            // TODO: make standard error messages
-            return res.status(409).send("Details are not correct");
-        }
     } catch (error) {
-        console.log(error);
+        res.status(error.status).send(error.message)
     }
     next();
 };
 
-
-//user logs in
-const login = async (req, res,next) => {
+const login = async (req, res, next) => {
     try {
         const {userName, password} = req.body;
-
-        //find a user by their userName
-        const user = await User.findOne({where: {userName: userName}});
+        //check if a user with that name exists
+        const user = await _getUserByName(userName);
+        // check password
+        await _checkUserCredentials(password, user.password);
 
         //if user userName is found, compare password with bcrypt
-        if (user) {
-            const isSame = await bcrypt.compare(password, user.password);
+        let token = jwt.sign({id: user.id}, __SECRET_KEY__, {
+            expiresIn: 7 * 24 * 60 * 60 * 1000,
+        });
 
-            if (isSame) {
-                let token = jwt.sign({id: user.id}, __SECRET_KEY__, {
-                    expiresIn: 7 * 24 * 60 * 60 * 1000,
-                });
+        //generate a cookie for the user
+        res.cookie("jwt", token, {maxAge: 7 * 24 * 60 * 60, httpOnly: true});
+        console.log("user", JSON.stringify(user, null, 2));
+        console.log(token);
+        //send user data
+        // TODO : create a model to send (only some info)
+        return res.status(201).send(user);
 
-                //if password matches with the one in the database
-                //generate a cookie for the user
-                res.cookie("jwt", token, {maxAge: 1 * 24 * 60 * 60, httpOnly: true});
-                console.log("user", JSON.stringify(user, null, 2));
-                console.log(token);
-                //send user data
-                // TODO : create a model to send (only some info)
-                return res.status(201).send(user);
-            } else {
-                // TODO: make standard error messages
-                return res.status(401).send("Authentication failed");
-            }
-        } else {
-            // TODO: make standard error messages
-            return res.status(401).send("Authentication failed");
-        }
     } catch (error) {
-        console.log(error);
+        res.status(error.status).send(error.message);
     }
     next();
 };
