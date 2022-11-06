@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter,Routes,Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Home from "./components/Home";
 import Playlist from "./components/Playlist";
 import AddSong from "./components/AddSong";
@@ -14,7 +14,11 @@ import AuthService from "./services/authService";
 import {useState} from "react";
 import LoginAndRegisterModal from "./components/LoginAndRegisterModal";
 import ButtonAll from "./components/ButtonAll";
-import AppContext from "./context/AppContext";
+import {applicationStore} from "./AppStore/AppStore";
+import {observer} from "mobx-react-lite";
+
+
+
 
 function App() {
     const [isLoggedIn,setLoggedIn] = useState(false);
@@ -42,6 +46,7 @@ function App() {
                     console.log(data);
                     setLoggedIn(true);
                     alert("Registration was successful")
+
                 }
                 break;
             }
@@ -50,7 +55,9 @@ function App() {
                 if (data) {
                     console.log(data);
                     setLoggedIn(true);
-                    alert("Login was successful")
+                    applicationStore.setUser(user);
+                    alert("Login was successful");
+                    window.location.href = '/profile'; // redirect to a new page
                 }
                 break;
             }
@@ -73,18 +80,14 @@ function App() {
           WEB PROJECT
         </a>
       </header>
-        <AppContext.Provider value={{
-            user:user
-        }}>
-        <BrowserRouter>
             <div>
                 <Navbar bg="primary" variant="dark">
                     <Container>
                         <Navbar.Brand href="/">HOME</Navbar.Brand>
                         <Nav className="me-auto">
-                            <Nav.Link href="/profile">Profile</Nav.Link>
-                            <Nav.Link href="/playlist">Playlist</Nav.Link>
-                            <Nav.Link href="/addsong">Add song</Nav.Link>
+                            <Nav.Link href="/profile" disabled={!isLoggedIn}>Profile</Nav.Link>
+                            <Nav.Link href="/playlist" disabled={!isLoggedIn}>Playlist</Nav.Link>
+                            <Nav.Link href="/addsong" disabled={!isLoggedIn}>Add song</Nav.Link>
                         </Nav>
 
                         {!isLoggedIn ?
@@ -133,17 +136,17 @@ function App() {
                     </Container>
                 </Navbar>
             </div>
+        <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Home/>} />
-                <Route path="/profile" element={<Profile/>} />
+                <Route path="/profile" element={<Profile store={applicationStore}/>}  />
                 <Route path="/playlist" element={<Playlist/>} />
                 <Route path="/addsong" element={<AddSong/>} />
             </Routes>
         </BrowserRouter>
-        </AppContext.Provider>
 
     </div>
   );
 }
 
-export default App;
+export default observer(App);
