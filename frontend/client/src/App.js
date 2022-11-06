@@ -2,6 +2,12 @@ import logo from './logo.svg';
 import './App.css';
 import NavigationBar from "./components/NavigationBar"
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {BrowserRouter,Routes,Route} from 'react-router-dom';
+import Home from "./components/Home";
+import Playlist from "./components/Playlist";
+import AddSong from "./components/AddSong";
+import Profile from "./components/Profile";
+
 function App() {
   return (
     <div className="App">
@@ -19,9 +25,17 @@ function App() {
           WEB PROJECT
         </a>
       </header>
-      <div>
-        <NavigationBar/>
-      </div>
+        <BrowserRouter>
+            <div>
+                <NavigationBar/>
+            </div>
+            <Routes>
+                <Route path="/" element={<Home/>} />
+                <Route path="/profile" element={<Profile/>} />
+                <Route path="/playlist" element={<Playlist/>} />
+                <Route path="/addsong" element={<AddSong/>} />
+            </Routes>
+        </BrowserRouter>
     </div>
   );
 }

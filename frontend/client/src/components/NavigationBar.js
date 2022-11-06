@@ -49,15 +49,14 @@ function NavigationBar() {
         }
     }
 
-
     return (
         <Navbar bg="primary" variant="dark">
             <Container>
-                <Navbar.Brand href="#">HOME</Navbar.Brand>
+                <Navbar.Brand href="/">HOME</Navbar.Brand>
                 <Nav className="me-auto">
-                    <Nav.Link href="#">Profile</Nav.Link>
-                    <Nav.Link href="#">Playlist</Nav.Link>
-                    <Nav.Link href="#">Add song</Nav.Link>
+                    <Nav.Link href="/profile">Profile</Nav.Link>
+                    <Nav.Link href="/playlist">Playlist</Nav.Link>
+                    <Nav.Link href="/addsong">Add song</Nav.Link>
                 </Nav>
 
                 {!isLoggedIn ?
