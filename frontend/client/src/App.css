@@ -24,6 +24,15 @@
   color: white;
 }
 
+.login-btn {
+  position: relative;
+  float: right;
+}
+
+.register-btn {
+  margin-left: 10px;
+}
+
 .App-link {
   color: #61dafb;
 }
