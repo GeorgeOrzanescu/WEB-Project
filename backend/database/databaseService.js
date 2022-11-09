@@ -25,4 +25,20 @@ const _getUserByName = async (username) => {
   return user;
 };
 
-export { _checkUserExists, _checkUserCredentials, _getUserByName };
+const _getUserById = async (id) => {
+  const user = await User.findOne({
+    where: { id: id },
+    include: "favouriteSongs",
+  });
+  if (!user) {
+    throw httpError(404, "User not found");
+  }
+  return user;
+};
+
+export {
+  _checkUserExists,
+  _checkUserCredentials,
+  _getUserByName,
+  _getUserById,
+};

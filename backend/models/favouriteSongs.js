@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database/database.js";
-import User from "./user";
 
 const FavouriteSong = sequelize.define("FavouriteSong", {
   title: {
@@ -14,13 +13,6 @@ const FavouriteSong = sequelize.define("FavouriteSong", {
   year: {
     type: DataTypes.STRING,
   },
-});
-
-User.hasMany(FavouriteSong, { as: "favouriteSongs" });
-FavouriteSong.belongsTo(User, {
-  foreignKey: "userId",
-  constraints: true,
-  onDelete: "CASCADE",
 });
 
 export default FavouriteSong;

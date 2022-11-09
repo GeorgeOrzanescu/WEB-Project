@@ -63,7 +63,7 @@ const login = async (req, res, next) => {
     // TODO : create a model to send (only some info)
     return res.status(201).send(user);
   } catch (error) {
-    res.status(error.status).send(error.message);
+    res.status(404).send(error.message);
   }
   next();
 };
