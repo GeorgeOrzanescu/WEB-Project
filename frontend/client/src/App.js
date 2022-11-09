@@ -18,10 +18,10 @@ import { applicationStore } from "./AppStore/AppStore";
 import { observer } from "mobx-react-lite";
 
 function App() {
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  // just to demonstrate state usage --> can easily be moved to a store
+  const [user, setUser] = useState("");
   const [originModal, setOriginModal] = useState("");
   const [modalShow, setModalShow] = useState(false);
-  const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
   const onChangeUser = (event) => {
@@ -41,7 +41,7 @@ function App() {
         const data = await AuthService.register(user, password);
         if (data) {
           console.log(data);
-          setLoggedIn(true);
+          applicationStore.setIsLoggedIn(true);
           alert("Registration was successful");
         }
         break;
@@ -50,18 +50,22 @@ function App() {
         const data = await AuthService.login(user, password);
         if (data) {
           console.log(data);
-          console.log(isLoggedIn);
-          setLoggedIn(true);
-          console.log(isLoggedIn);
           applicationStore.setUser(user);
           applicationStore.setIsLoggedIn(true);
-          console.log(applicationStore.IsLoggedIn)
           alert("Login was successful");
           window.location.href = "/profile"; // redirect to a new page
         }
         break;
       }
+      default:
     }
+  };
+
+  const logoutHandler = (event) => {
+    event.preventDefault();
+    applicationStore.setIsLoggedIn(false);
+    applicationStore.setUser("");
+    window.location.href = "/";
   };
 
   return (
@@ -87,7 +91,10 @@ function App() {
               <Nav.Link href="/profile" disabled={!applicationStore.IsLoggedIn}>
                 Profile
               </Nav.Link>
-              <Nav.Link href="/playlist" disabled={!applicationStore.IsLoggedIn}>
+              <Nav.Link
+                href="/playlist"
+                disabled={!applicationStore.IsLoggedIn}
+              >
                 Playlist
               </Nav.Link>
               <Nav.Link href="/addsong" disabled={!applicationStore.IsLoggedIn}>
@@ -109,10 +116,7 @@ function App() {
               <ButtonAll
                 className={"login-btn"}
                 state={false}
-                handler={() => {
-                  applicationStore.setIsLoggedIn(false);
-                  applicationStore.setUser("");
-                }}
+                handler={logoutHandler}
                 message={"Logout"}
               />
             )}
