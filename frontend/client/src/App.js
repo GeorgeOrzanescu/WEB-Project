@@ -49,8 +49,9 @@ function App() {
       case "login": {
         const data = await AuthService.login(user, password);
         if (data) {
-          console.log(data);
+          console.log(data.id);
           applicationStore.setUser(user);
+          applicationStore.setUserId(data.id);
           applicationStore.setIsLoggedIn(true);
           alert("Login was successful");
           window.location.href = "/profile"; // redirect to a new page
@@ -159,7 +160,10 @@ function App() {
             path="/profile"
             element={<Profile store={applicationStore} />}
           />
-          <Route path="/playlist" element={<Playlist />} />
+          <Route
+            path="/playlist"
+            element={<Playlist userId={applicationStore.userId} />}
+          />
           <Route path="/addsong" element={<AddSong />} />
         </Routes>
       </BrowserRouter>

@@ -9,7 +9,7 @@ const getFavouriteSongs = async (req, res, next) => {
     //console.log(user.getFavouriteSongs()); // u get a getter automatically for each field NICE
     //res.send(await user.getFavouriteSongs());
     // JUST SEND DUMMY DATA TO WORK IN FRONTEND
-    res.send([
+    res.status(200).send([
       {
         title: "Gone Baby",
         artist: "Bill Murray",
