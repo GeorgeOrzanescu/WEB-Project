@@ -22,16 +22,17 @@ app.use(userRouter);
 const port = process.env.PORT || __PORT__;
 const version = "0.0.1";
 
-// this creates the database if not created already
-// !! use {force:true} when you want to recreate the database with all the tables
 User.hasMany(FavouriteSong, { as: "favouriteSongs" });
 FavouriteSong.belongsTo(User, {
   foreignKey: "userId",
   constraints: true,
   onDelete: "CASCADE",
 });
+
+// this creates the database if not created already
+// !! use {force:true} when you want to recreate the database with all the tables
 sequelize
-  .sync({ force: true })
+  .sync()
   .then(() => {
     console.log("Database is synced successfully");
   })
