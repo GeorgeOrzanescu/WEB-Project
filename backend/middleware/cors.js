@@ -1,12 +1,15 @@
-//CORS middleware
-const allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+/**
+ * CORS middleware
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+const allowCrossDomain = function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
 
-    next();
-}
+  next();
+};
 
-export {
-    allowCrossDomain
-}
+export { allowCrossDomain };

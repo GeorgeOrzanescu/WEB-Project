@@ -1,4 +1,3 @@
-//importing modules
 import bcrypt from "bcrypt";
 import User from "../models/user.js";
 import jwt from "jsonwebtoken";
@@ -9,6 +8,13 @@ import {
   _getUserByName,
 } from "../database/databaseService.js";
 
+/**
+ * Handles the POST register user
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 const register = async (req, res, next) => {
   try {
     const { userName, password } = req.body;
@@ -31,8 +37,6 @@ const register = async (req, res, next) => {
     });
 
     res.cookie("jwt", token, { maxAge: 7 * 24 * 60 * 60, httpOnly: true });
-    console.log("user", JSON.stringify(user, null, 2));
-    console.log(token);
     //send users details
     // TODO : create a model to send (only some info)
     return res.status(201).send(user);
@@ -42,6 +46,13 @@ const register = async (req, res, next) => {
   next();
 };
 
+/**
+ * Handles the POST login user
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 const login = async (req, res, next) => {
   try {
     const { userName, password } = req.body;

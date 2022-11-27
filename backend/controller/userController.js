@@ -1,31 +1,16 @@
 import FavouriteSong from "../models/favouriteSongs.js";
 import { _getUserById } from "../database/databaseService.js";
 
+/**
+ * Handles the GET favourite songs
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
 const getFavouriteSongs = async (req, res, next) => {
   const userId = req.params["id"];
-  console.log(userId);
   try {
     const user = await _getUserById(userId);
-    //console.log(user.getFavouriteSongs()); // u get a getter automatically for each field NICE
-    //res.send(await user.getFavouriteSongs());
-    // JUST SEND DUMMY DATA TO WORK IN FRONTEND
-    // res.status(200).send([
-    //   {
-    //     title: "Gone Baby",
-    //     artist: "Bill Murray",
-    //     year: "2002",
-    //   },
-    //   {
-    //     title: "Dance Slowly",
-    //     artist: "Bill Gates",
-    //     year: "2001",
-    //   },
-    //   {
-    //     title: "Find all truth",
-    //     artist: "Miki Ra",
-    //     year: "2090",
-    //   },
-    // ]);
     const favouriteSongs = await user.getFavouriteSongs();
     res.status(200).send(favouriteSongs);
   } catch (error) {
@@ -34,6 +19,12 @@ const getFavouriteSongs = async (req, res, next) => {
   next();
 };
 
+/**
+ * Handles the POST favourite songs
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
 const addFavouriteSong = async (req, res, next) => {
   const userId = req.params["id"];
   try {
@@ -59,14 +50,17 @@ const addFavouriteSong = async (req, res, next) => {
   next();
 };
 
+/**
+ * Handles the DELETE favourite song
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
 const removeFavouriteSong = async (req, res, next) => {
   const userId = req.params["id"];
   try {
     const user = await _getUserById(userId);
     if (user) {
-      // adds a song to the linked favouriteSongs table
-      // !! there is also setFavouriteSongs but this deletes the previous ones
-
       const songs = await user.getFavouriteSongs();
       const modifiedSongs = songs.filter((song) => {
         // remove the one with the id received

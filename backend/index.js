@@ -20,8 +20,11 @@ app.use(adminRouter);
 app.use(userRouter);
 
 const port = process.env.PORT || __PORT__;
-const version = "0.0.1";
+const version = "0.0.2";
 
+/**
+ * Create the relationships between models
+ */
 User.hasMany(FavouriteSong, { as: "favouriteSongs" });
 FavouriteSong.belongsTo(User, {
   foreignKey: "userId",
