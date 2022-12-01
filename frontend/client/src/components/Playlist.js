@@ -1,6 +1,7 @@
 import UserService from "../services/userService";
 import { useEffect, useState } from "react";
 import "./Playlist.css";
+import {Table} from "react-bootstrap";
 function Playlist(props) {
   const [songs, setSongs] = useState([]);
 
@@ -17,28 +18,28 @@ function Playlist(props) {
   return (
     <div>
       <h1>Your favourite songs</h1>
-      <table class="table">
+      <Table striped bordered hover>
         <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Artist</th>
-            <th scope="col">Title</th>
-            <th scope="col">Year</th>
-          </tr>
+        <tr>
+          <th>#</th>
+          <th>Artist</th>
+          <th>Title</th>
+          <th>Year</th>
+        </tr>
         </thead>
         <tbody>
-          {songs.map((song, index) => {
-            return (
+        {songs.map((song, index) => {
+          return (
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
                 <th>{song.artist}</th>
                 <th>{song.title}</th>
                 <th>{song.year}</th>
               </tr>
-            );
-          })}
+          );
+        })}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 }

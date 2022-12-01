@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate} from "react-router-dom";
 import Home from "./components/Home";
 import Playlist from "./components/Playlist";
 import AddSong from "./components/AddSong";
@@ -24,6 +24,8 @@ function App() {
   const [modalShow, setModalShow] = useState(false);
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const onChangeUser = (event) => {
     setUser(event.target.value);
   };
@@ -40,21 +42,20 @@ function App() {
       case "register": {
         const data = await AuthService.register(user, password);
         if (data) {
-          console.log(data);
           applicationStore.setIsLoggedIn(true);
           alert("Registration was successful");
+          navigate("/profile"); // redirect to the profile page
         }
         break;
       }
       case "login": {
         const data = await AuthService.login(user, password);
         if (data) {
-          console.log(data.id);
           applicationStore.setUser(user);
           applicationStore.setUserId(data.id);
           applicationStore.setIsLoggedIn(true);
           alert("Login was successful");
-          window.location.href = "/profile"; // redirect to a new page
+          navigate("/profile"); // redirect to the profile page
         }
         break;
       }
@@ -66,7 +67,7 @@ function App() {
     event.preventDefault();
     applicationStore.setIsLoggedIn(false);
     applicationStore.setUser("");
-    window.location.href = "/";
+    navigate("/");
   };
 
   return (
@@ -83,77 +84,77 @@ function App() {
           WEB PROJECT
         </a>
       </header>
-      {/* Navigation Bar  */}
-      <div>
-        <Navbar bg="primary" variant="dark">
-          <Container>
-            <Navbar.Brand href="/">HOME</Navbar.Brand>
-            <Nav className="me-auto">
-              <Nav.Link href="/profile" disabled={!applicationStore.IsLoggedIn}>
-                Profile
-              </Nav.Link>
-              <Nav.Link
-                href="/playlist"
-                disabled={!applicationStore.IsLoggedIn}
-              >
-                Playlist
-              </Nav.Link>
-              <Nav.Link href="/addsong" disabled={!applicationStore.IsLoggedIn}>
-                Add song
-              </Nav.Link>
-            </Nav>
 
-            {!applicationStore.IsLoggedIn ? (
-              <ButtonAll
-                className={"login-btn"}
-                state={false}
-                handler={() => {
-                  setOriginModal("login");
-                  setModalShow(true);
-                }}
-                message={"Login"}
-              />
-            ) : (
-              <ButtonAll
-                className={"login-btn"}
-                state={false}
-                handler={logoutHandler}
-                message={"Logout"}
-              />
-            )}
-            {!applicationStore.IsLoggedIn ? (
-              <ButtonAll
-                className={"register-btn"}
-                state={false}
-                handler={() => {
-                  setOriginModal("register");
-                  setModalShow(true);
-                }}
-                message={"Register"}
-              />
-            ) : (
-              <ButtonAll
-                className={"register-btn"}
-                state={true}
-                handler={() => {
-                  setOriginModal("register");
-                  setModalShow(true);
-                }}
-                message={"Register"}
-              />
-            )}
+        {/* Navigation Bar  */}
+        <div>
+          <Navbar bg="primary" variant="dark">
+            <Container>
+              <Navbar.Brand href="/">HOME</Navbar.Brand>
+              <Nav className="me-auto">
+                <Nav.Link href="/profile" disabled={!applicationStore.IsLoggedIn}>
+                  Profile
+                </Nav.Link>
+                <Nav.Link
+                    href="/playlist"
+                    disabled={!applicationStore.IsLoggedIn}
+                >
+                  Playlist
+                </Nav.Link>
+                <Nav.Link href="/addsong" disabled={!applicationStore.IsLoggedIn}>
+                  Add song
+                </Nav.Link>
+              </Nav>
 
-            <LoginAndRegisterModal
-              show={modalShow}
-              onHide={() => setModalShow(false)}
-              onSubmit={submitHandler}
-              onChangePassword={onChangePassword}
-              onChangeUser={onChangeUser}
-            />
-          </Container>
-        </Navbar>
-      </div>
-      <BrowserRouter>
+              {!applicationStore.IsLoggedIn ? (
+                  <ButtonAll
+                      className={"login-btn"}
+                      state={false}
+                      handler={() => {
+                        setOriginModal("login");
+                        setModalShow(true);
+                      }}
+                      message={"Login"}
+                  />
+              ) : (
+                  <ButtonAll
+                      className={"login-btn"}
+                      state={false}
+                      handler={logoutHandler}
+                      message={"Logout"}
+                  />
+              )}
+              {!applicationStore.IsLoggedIn ? (
+                  <ButtonAll
+                      className={"register-btn"}
+                      state={false}
+                      handler={() => {
+                        setOriginModal("register");
+                        setModalShow(true);
+                      }}
+                      message={"Register"}
+                  />
+              ) : (
+                  <ButtonAll
+                      className={"register-btn"}
+                      state={true}
+                      handler={() => {
+                        setOriginModal("register");
+                        setModalShow(true);
+                      }}
+                      message={"Register"}
+                  />
+              )}
+
+              <LoginAndRegisterModal
+                  show={modalShow}
+                  onHide={() => setModalShow(false)}
+                  onSubmit={submitHandler}
+                  onChangePassword={onChangePassword}
+                  onChangeUser={onChangeUser}
+              />
+            </Container>
+          </Navbar>
+        </div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
@@ -166,7 +167,6 @@ function App() {
           />
           <Route path="/addsong" element={<AddSong />} />
         </Routes>
-      </BrowserRouter>
     </div>
   );
 }
