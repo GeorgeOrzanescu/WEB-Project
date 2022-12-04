@@ -10,8 +10,8 @@ import {
 
 /**
  * Handles the POST register user
- * @param {*} req
- * @param {*} res
+ * @param {Request} req
+ * @param {Response} res
  * @param {*} next
  * @returns
  */
@@ -48,8 +48,8 @@ const register = async (req, res, next) => {
 
 /**
  * Handles the POST login user
- * @param {*} req
- * @param {*} res
+ * @param {Request} req
+ * @param {Response} res
  * @param {*} next
  * @returns
  */
@@ -69,7 +69,6 @@ const login = async (req, res, next) => {
     //generate a cookie for the user
     res.cookie("jwt", token, { maxAge: 7 * 24 * 60 * 60, httpOnly: true });
     console.log("user", JSON.stringify(user, null, 2));
-    console.log(token);
     //send user data
     // TODO : create a model to send (only some info)
     return res.status(201).send(user);

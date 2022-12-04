@@ -16,11 +16,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(allowCrossDomain);
 
+//routers
 app.use(adminRouter);
 app.use(userRouter);
 
 const port = process.env.PORT || __PORT__;
-const version = "0.0.2";
 
 /**
  * Create the relationships between models

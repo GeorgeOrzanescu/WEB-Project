@@ -3,8 +3,8 @@ import { _getUserById } from "../database/databaseService.js";
 
 /**
  * Handles the GET favourite songs
- * @param {*} req
- * @param {*} res
+ * @param {Request} req
+ * @param {Response} res
  * @param {*} next
  */
 const getFavouriteSongs = async (req, res, next) => {
@@ -21,8 +21,8 @@ const getFavouriteSongs = async (req, res, next) => {
 
 /**
  * Handles the POST favourite songs
- * @param {*} req
- * @param {*} res
+ * @param {Request} req
+ * @param {Response} res
  * @param {*} next
  */
 const addFavouriteSong = async (req, res, next) => {
@@ -34,14 +34,10 @@ const addFavouriteSong = async (req, res, next) => {
       artist: req.body.artist,
       year: req.body.year,
     });
-    if (user) {
+    if (user && song) {
       // adds a song to the linked favouriteSongs table
       // !! there is also setFavouriteSongs but this deletes the previous ones
-      await user.createFavouriteSong({
-        title: req.body.title,
-        artist: req.body.artist,
-        year: req.body.year,
-      });
+      await user.addFavouriteSong(song);
       res.status(200).send(song);
     }
   } catch (error) {
@@ -52,8 +48,8 @@ const addFavouriteSong = async (req, res, next) => {
 
 /**
  * Handles the DELETE favourite song
- * @param {*} req
- * @param {*} res
+ * @param {Request} req
+ * @param {Response} res
  * @param {*} next
  */
 const removeFavouriteSong = async (req, res, next) => {
@@ -66,7 +62,6 @@ const removeFavouriteSong = async (req, res, next) => {
         // remove the one with the id received
         return song.id.toString() !== req.params["songId"].toString();
       });
-
       user.setFavouriteSongs(modifiedSongs); // set the modified favourite songs list to the user
       res.status(200).send(modifiedSongs);
     }

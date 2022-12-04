@@ -1,7 +1,7 @@
 /**
  * CORS middleware
- * @param {*} req
- * @param {*} res
+ * @param {Request} req
+ * @param {Response} res
  * @param {*} next
  */
 const allowCrossDomain = function (req, res, next) {

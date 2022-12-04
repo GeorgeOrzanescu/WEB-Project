@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 
 /**
  * Checks if a user with a certain username exists
- * @param {*} userName - the username
+ * @param {String} userName - the username
  * @returns - the user found or a HTTP error
  */
 const _checkUserExists = async (userName) => {
@@ -17,8 +17,8 @@ const _checkUserExists = async (userName) => {
 
 /**
  * Cheks if the password received matches the one stored
- * @param {*} password - the received password
- * @param {*} usersPassword - the password stored in db
+ * @param {String} password - the received password
+ * @param {String} usersPassword - the password stored in db
  */
 const _checkUserCredentials = async (password, usersPassword) => {
   const isSame = await bcrypt.compare(password, usersPassword);
@@ -29,7 +29,7 @@ const _checkUserCredentials = async (password, usersPassword) => {
 
 /**
  *
- * @param {*} username - username
+ * @param {String} username - username
  * @returns - the user found or a HTTP error
  */
 const _getUserByName = async (username) => {
@@ -42,7 +42,7 @@ const _getUserByName = async (username) => {
 
 /**
  *
- * @param {*} id - the id of an user
+ * @param {Number} id - the id of an user
  * @returns - the user with all the favourite songs or a HTTP error
  */
 const _getUserById = async (id) => {
