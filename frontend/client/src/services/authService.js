@@ -1,7 +1,7 @@
-import __API_URL__ from "../endpoints/endpoints";
+import { endpoints } from "../endpoints/endpoints";
 
 const register = async (userName, password) => {
-  const result = await fetch(__API_URL__ + "register", {
+  const result = await fetch(endpoints.__API_URL__ + "register", {
     method: "POST",
     body: JSON.stringify({
       userName: userName,
@@ -18,7 +18,7 @@ const register = async (userName, password) => {
 };
 
 const login = async (userName, password) => {
-  const result = await fetch(__API_URL__ + "login", {
+  const result = await fetch(endpoints.__API_URL__ + "login", {
     method: "POST",
     body: JSON.stringify({
       userName: userName,

@@ -60,7 +60,7 @@ const login = async (req, res, next) => {
     const user = await _getUserByName(userName);
     // check password
     await _checkUserCredentials(password, user.password);
-
+   
     //if user userName is found, compare password with bcrypt
     let token = jwt.sign({ id: user.id }, __SECRET_KEY__, {
       expiresIn: 7 * 24 * 60 * 60 * 1000,

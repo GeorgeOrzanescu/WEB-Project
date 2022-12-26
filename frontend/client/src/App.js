@@ -45,6 +45,8 @@ function App() {
           applicationStore.setIsLoggedIn(true);
           alert("Registration was successful");
           navigate("/profile"); // redirect to the profile page
+        } else {
+          alert("Registration failed, please try again!");
         }
         break;
       }
@@ -56,6 +58,8 @@ function App() {
           applicationStore.setIsLoggedIn(true);
           alert("Login was successful");
           navigate("/profile"); // redirect to the profile page
+        } else {
+          alert("Password or username incorrect!");
         }
         break;
       }

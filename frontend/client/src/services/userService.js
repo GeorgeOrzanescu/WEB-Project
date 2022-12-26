@@ -1,7 +1,7 @@
-import __API_URL_SONGS__ from "../endpoints/endpoints";
+import { endpoints } from "../endpoints/endpoints";
 
 const getUserSongs = async (userId) => {
-  const result = await fetch(__API_URL_SONGS__ + userId);
+  const result = await fetch(endpoints.__API_URL_SONGS__ + userId);
   if (result.status === 200) {
     const data = await result.json();
     return data;
@@ -9,7 +9,7 @@ const getUserSongs = async (userId) => {
 };
 
 const addFavouriteSong = async (userId, data) => {
-  const result = await fetch(__API_URL_SONGS__ + userId + "/add", {
+  const result = await fetch(endpoints.__API_URL_SONGS__ + userId + "/add", {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -23,9 +23,12 @@ const addFavouriteSong = async (userId, data) => {
 };
 
 const removeFavouriteSong = async (userId, songId) => {
-  const result = await fetch(__API_URL_SONGS__ + userId + "/remove/" + songId, {
-    method: "DELETE",
-  });
+  const result = await fetch(
+    endpoints.__API_URL_SONGS__ + userId + "/remove/" + songId,
+    {
+      method: "DELETE",
+    }
+  );
   if (result.status === 200) {
     const data = await result.json();
     return data;
