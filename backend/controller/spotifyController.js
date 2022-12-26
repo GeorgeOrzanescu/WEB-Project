@@ -1,3 +1,10 @@
+import {
+  CLIENT_SECRET,
+  CLIENT_ID,
+  REDIRECT_URI,
+} from "../environment/envVariables.js";
+import { getSpotifyData } from "../spotify_service/spotifyService.js";
+
 // get the authorization code from spotify.com
 const authorize = (req, res) => {
   const queryParams = new URLSearchParams({
@@ -38,33 +45,39 @@ const callback = async (req, res) => {
   const data = await response.json();
   global.ACCESS_TOKEN = data.access_token; // store the access_token in a global variable
   console.dir(global.ACCESS_TOKEN);
+  res.status(200).send("Authorization of spotify succeded");
 };
 
 const getSpotifySongs = async (req, res) => {
   const response = await getSpotifyData("browse/featured-playlists");
   const data = await response.json();
-  const playlists = data.playlists.items.slice(0, 1);
+  const finalSongs = [];
 
-  const songs = [];
-  playlists.forEach(async (playlist) => {
-    const songResponse = await getSpotifyData(
-      `playlists/${playlist.id}/tracks`
-    );
-    const songs = await songResponse.json();
-    songs.items.forEach((song) => {
-      let artist = "";
-      song.track.artists.map((iartist) => {
-        artist += " " + iartist.name;
+  if (global.ACCESS_TOKEN !== undefined) {
+    const playlists = data.playlists.items.slice(0, 1);
+    playlists.forEach(async (playlist) => {
+      const songResponse = await getSpotifyData(
+        `playlists/${playlist.id}/tracks`
+      );
+      const songs = await songResponse.json();
+      songs.items.forEach((song) => {
+        let artist = "";
+        song.track.artists.map((iartist) => {
+          artist += " " + iartist.name;
+        });
+        finalSongs.push({
+          artist: artist,
+          title: song.track.name,
+          year: song.track.album.release_date.split("-")[0],
+        });
       });
-      console.log("------------------------");
-      console.log("artist: ", artist);
-      console.log("title: ", song.track.name);
-      console.log("date: ", song.track.album.release_date);
-      console.log("------------------------");
+      res.status(200).send(finalSongs);
     });
-  });
-
-  console.log("Songs:", songs);
+  } else {
+    res.status(404).send({
+      message: "Access token for spotify was not retrieved succsfully!",
+    });
+  }
 };
 
 export { authorize, callback, getSpotifySongs };

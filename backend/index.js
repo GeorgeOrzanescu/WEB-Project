@@ -3,13 +3,11 @@ import adminRouter from "./routers/admin-router/adminRouter.js";
 import userRouter from "./routers/user-router/userRouter.js";
 import spotifyRouter from "./routers/spotify-router/spotifyRouter.js";
 import sequelize from "./database/database.js";
-import { CLIENT_SECRET, __PORT__ } from "./environment/envVariables.js";
+import { __PORT__ } from "./environment/envVariables.js";
 import cookieParser from "cookie-parser";
 import { allowCrossDomain } from "./middleware/cors.js";
 import User from "./models/user.js";
 import FavouriteSong from "./models/favouriteSongs.js";
-import { CLIENT_ID, REDIRECT_URI } from "./environment/envVariables.js";
-import { getSpotifyData } from "./spotify_service/spotifyService.js";
 const app = express();
 
 global.ACCESS_TOKEN;
