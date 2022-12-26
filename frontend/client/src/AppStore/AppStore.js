@@ -21,7 +21,7 @@ class AppStore {
     makePersistable(this, {
       name: "AppStore",
       properties: ["user", "isLoggedIn", "userId"],
-      storage: window.localStorage,
+      storage: window.sessionStorage,
     });
   }
 

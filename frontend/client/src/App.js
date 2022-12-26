@@ -43,6 +43,8 @@ function App() {
         const data = await AuthService.register(user, password);
         if (data) {
           applicationStore.setIsLoggedIn(true);
+          applicationStore.setUser(user);
+          applicationStore.setUserId(data.id);
           alert("Registration was successful");
           navigate("/profile"); // redirect to the profile page
         } else {
@@ -74,6 +76,7 @@ function App() {
     navigate("/");
   };
 
+  console.log(applicationStore.UserId);
   return (
     <div className="App">
       <header className="App-header">

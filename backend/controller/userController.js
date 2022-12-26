@@ -16,7 +16,6 @@ const getFavouriteSongs = async (req, res, next) => {
   } catch (error) {
     res.status(404).send("Unable to retrieve songs");
   }
-  next();
 };
 
 /**
@@ -43,7 +42,6 @@ const addFavouriteSong = async (req, res, next) => {
   } catch (error) {
     res.status(404).send("Unable to add song");
   }
-  next();
 };
 
 /**
@@ -69,7 +67,6 @@ const removeFavouriteSong = async (req, res, next) => {
     console.log(error);
     res.status(404).send("Unable to remove song");
   }
-  next();
 };
 
 export { getFavouriteSongs, addFavouriteSong, removeFavouriteSong };

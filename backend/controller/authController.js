@@ -43,7 +43,6 @@ const register = async (req, res, next) => {
   } catch (error) {
     res.status(error.status).send(error.message);
   }
-  next();
 };
 
 /**
@@ -60,7 +59,7 @@ const login = async (req, res, next) => {
     const user = await _getUserByName(userName);
     // check password
     await _checkUserCredentials(password, user.password);
-   
+
     //if user userName is found, compare password with bcrypt
     let token = jwt.sign({ id: user.id }, __SECRET_KEY__, {
       expiresIn: 7 * 24 * 60 * 60 * 1000,
@@ -71,11 +70,10 @@ const login = async (req, res, next) => {
     console.log("user", JSON.stringify(user, null, 2));
     //send user data
     // TODO : create a model to send (only some info)
-    return res.status(201).send(user);
+    res.status(201).send(user);
   } catch (error) {
     res.status(404).send(error.message);
   }
-  next();
 };
 
 export { register, login };

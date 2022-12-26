@@ -19,7 +19,6 @@ adminRouter.post("/login", login);
  */
 adminRouter.get("/version", (req, res, next) => {
   res.send("Version: " + __VERSION__);
-  next();
 });
 
 export default adminRouter;
