@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import { allowCrossDomain } from "./middleware/cors.js";
 import User from "./models/user.js";
 import FavouriteSong from "./models/favouriteSongs.js";
+
 const app = express();
 
 global.ACCESS_TOKEN;

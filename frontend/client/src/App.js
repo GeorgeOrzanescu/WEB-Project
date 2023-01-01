@@ -2,16 +2,16 @@ import logo from "./logo.svg";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import Home from "./components/Home";
 import Playlist from "./components/Playlist";
 import AddSong from "./components/AddSong";
 import Profile from "./components/Profile";
-
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import AuthService from "./services/authService";
-import { useState } from "react";
+import SpotifyService from "./services/spotifyService";
 import LoginAndRegisterModal from "./components/LoginAndRegisterModal";
 import ButtonAll from "./components/ButtonAll";
 import { applicationStore } from "./AppStore/AppStore";
@@ -45,6 +45,7 @@ function App() {
           applicationStore.setIsLoggedIn(true);
           applicationStore.setUser(user);
           applicationStore.setUserId(data.id);
+          await SpotifyService.authorizeSpotify();
           alert("Registration was successful");
           navigate("/profile"); // redirect to the profile page
         } else {
@@ -58,6 +59,7 @@ function App() {
           applicationStore.setUser(user);
           applicationStore.setUserId(data.id);
           applicationStore.setIsLoggedIn(true);
+          await SpotifyService.authorizeSpotify();
           alert("Login was successful");
           navigate("/profile"); // redirect to the profile page
         } else {
@@ -76,7 +78,6 @@ function App() {
     navigate("/");
   };
 
-  console.log(applicationStore.UserId);
   return (
     <div className="App">
       <header className="App-header">

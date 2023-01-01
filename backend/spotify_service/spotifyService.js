@@ -4,7 +4,7 @@ const getSpotifyData = async (endpoint) => {
   const data = await fetch(API_URL + endpoint, {
     method: "GET",
     headers: {
-      Authorization: "Bearer " + global.ACCESS_TOKEN,
+      Authorization: "Bearer " + global.ACCESS_TOKEN.access_token,
       "Content-Type": "application/json",
     },
   });
