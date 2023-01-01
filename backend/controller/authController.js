@@ -12,10 +12,9 @@ import {
  * Handles the POST register user
  * @param {Request} req
  * @param {Response} res
- * @param {*} next
- * @returns
+ * @returns The user or error message
  */
-const register = async (req, res, next) => {
+const register = async (req, res) => {
   try {
     const { userName, password } = req.body;
 
@@ -38,7 +37,6 @@ const register = async (req, res, next) => {
 
     res.cookie("jwt", token, { maxAge: 7 * 24 * 60 * 60, httpOnly: true });
     //send users details
-    // TODO : create a model to send (only some info)
     return res.status(201).send(user);
   } catch (error) {
     res.status(error.status).send(error.message);
@@ -49,8 +47,8 @@ const register = async (req, res, next) => {
  * Handles the POST login user
  * @param {Request} req
  * @param {Response} res
- * @param {*} next
- * @returns
+ *
+ * @returns The user or 404
  */
 const login = async (req, res, next) => {
   try {
@@ -69,7 +67,6 @@ const login = async (req, res, next) => {
     res.cookie("jwt", token, { maxAge: 7 * 24 * 60 * 60, httpOnly: true });
     console.log("user", JSON.stringify(user, null, 2));
     //send user data
-    // TODO : create a model to send (only some info)
     res.status(201).send(user);
   } catch (error) {
     res.status(404).send(error.message);

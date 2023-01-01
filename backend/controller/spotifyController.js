@@ -1,12 +1,21 @@
 import { CLIENT_SECRET, CLIENT_ID } from "../environment/envVariables.js";
 import { getSpotifyData } from "../spotify_service/spotifyService.js";
 
+/**
+ * Handles the GET authorize for spotify
+ * @param {Request} req
+ * @param {Response} res
+ *
+ * @returns the authorization token or 404
+ */
 const getSpotifyToken = async (req, res) => {
   const result = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: "Basic " + btoa(CLIENT_ID + ":" + CLIENT_SECRET),
+      Authorization:
+        "Basic " +
+        Buffer.from(CLIENT_ID + ":" + CLIENT_SECRET).toString("base64"),
     },
     body: "grant_type=client_credentials",
   });
@@ -21,6 +30,13 @@ const getSpotifyToken = async (req, res) => {
   }
 };
 
+/**
+ * Handles the GET trending songs from spotify
+ * @param {Request} req
+ * @param {Response} res
+ *
+ * @returns the trending songs or 404
+ */
 const getSpotifySongs = async (req, res) => {
   const response = await getSpotifyData("browse/featured-playlists");
   const data = await response.json();

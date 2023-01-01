@@ -1,4 +1,4 @@
-export const __VERSION__ = "1.0.2";
+export const __VERSION__ = "1.0.3";
 export const __PORT__ = 8000;
 export const __SECRET_KEY__ = "webproject";
 

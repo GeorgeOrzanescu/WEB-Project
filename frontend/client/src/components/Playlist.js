@@ -10,10 +10,14 @@ function Playlist(props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await UserService.getUserSongs(props.userId);
-      const resultSpotify = await SpotifyService.getSpotifyTrendingSongs();
-      setSongs(result);
-      setSpotifySongs(resultSpotify);
+      const result = Promise.all([
+        await UserService.getUserSongs(props.userId),
+        await SpotifyService.getSpotifyTrendingSongs(),
+      ]);
+      result.then(([userSongs, spotifySongs]) => {
+        setSongs(userSongs);
+        setSpotifySongs(spotifySongs);
+      });
     };
     fetchData();
   }, [addedSong, props.userId]);
@@ -23,9 +27,20 @@ function Playlist(props) {
     setSongs(result);
   };
 
+  const validateSongAdding = (songToAdd) => {
+    const valid = songs.every((song) => {
+      return song.title !== songToAdd.title && song.artist !== songToAdd.artist;
+    });
+    return valid;
+  };
+
   const addToUserList = async (song) => {
-    await UserService.addFavouriteSong(props.userId, song);
-    setAddedSong(addedSong + 1);
+    if (validateSongAdding(song)) {
+      await UserService.addFavouriteSong(props.userId, song);
+      setAddedSong(addedSong + 1);
+    } else {
+      alert("Song is already in your list");
+    }
   };
 
   return (
