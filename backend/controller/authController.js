@@ -65,7 +65,6 @@ const login = async (req, res, next) => {
 
     //generate a cookie for the user
     res.cookie("jwt", token, { maxAge: 7 * 24 * 60 * 60, httpOnly: true });
-    console.log("user", JSON.stringify(user, null, 2));
     //send user data
     res.status(201).send(user);
   } catch (error) {

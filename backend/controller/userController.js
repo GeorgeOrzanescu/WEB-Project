@@ -67,7 +67,6 @@ const removeFavouriteSong = async (req, res) => {
       res.status(200).send(modifiedSongs);
     }
   } catch (error) {
-    console.log(error);
     res.status(404).send("Unable to remove song");
   }
 };
