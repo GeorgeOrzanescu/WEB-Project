@@ -5,9 +5,10 @@ import { _getUserById } from "../database/databaseService.js";
  * Handles the GET favourite songs
  * @param {Request} req
  * @param {Response} res
- * @param {*} next
+ *
+ * @returns favourite songs of the user or 404
  */
-const getFavouriteSongs = async (req, res, next) => {
+const getFavouriteSongs = async (req, res) => {
   const userId = req.params["id"];
   try {
     const user = await _getUserById(userId);
@@ -22,9 +23,10 @@ const getFavouriteSongs = async (req, res, next) => {
  * Handles the POST favourite songs
  * @param {Request} req
  * @param {Response} res
- * @param {*} next
+ *
+ * @returns song added or 404
  */
-const addFavouriteSong = async (req, res, next) => {
+const addFavouriteSong = async (req, res) => {
   const userId = req.params["id"];
   try {
     const user = await _getUserById(userId);
@@ -48,9 +50,10 @@ const addFavouriteSong = async (req, res, next) => {
  * Handles the DELETE favourite song
  * @param {Request} req
  * @param {Response} res
- * @param {*} next
+ *
+ * @returns songs of the user or 404
  */
-const removeFavouriteSong = async (req, res, next) => {
+const removeFavouriteSong = async (req, res) => {
   const userId = req.params["id"];
   try {
     const user = await _getUserById(userId);
@@ -64,7 +67,6 @@ const removeFavouriteSong = async (req, res, next) => {
       res.status(200).send(modifiedSongs);
     }
   } catch (error) {
-    console.log(error);
     res.status(404).send("Unable to remove song");
   }
 };

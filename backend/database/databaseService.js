@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 /**
  * Checks if a user with a certain username exists
  * @param {String} userName - the username
+ *
  * @returns - the user found or a HTTP error
  */
 const _checkUserExists = async (userName) => {
@@ -30,6 +31,7 @@ const _checkUserCredentials = async (password, usersPassword) => {
 /**
  *
  * @param {String} username - username
+ *
  * @returns - the user found or a HTTP error
  */
 const _getUserByName = async (username) => {
@@ -43,6 +45,7 @@ const _getUserByName = async (username) => {
 /**
  *
  * @param {Number} id - the id of an user
+ *
  * @returns - the user with all the favourite songs or a HTTP error
  */
 const _getUserById = async (id) => {

@@ -3,6 +3,7 @@ h1 {
   margin-bottom: 50px;
 }
 
-.remove-song-btn {
+.remove-song-btn,
+.add-song-btn {
   margin-left: 1em;
 }
