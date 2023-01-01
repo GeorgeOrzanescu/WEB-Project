@@ -17,7 +17,7 @@ adminRouter.post("/login", login);
 /**
  * GET version of app path
  */
-adminRouter.get("/version", (_, res, _) => {
+adminRouter.get("/version", (_, res) => {
   res.send("Version: " + __VERSION__);
 });
 
